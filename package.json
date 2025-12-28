@@ -1,5 +1,5 @@
 {
-  "name": "@anthropic/myst",
+  "name": "@zos-apps/myst",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,10 +11,15 @@
     "icon": "🌫️",
     "category": "hidden",
     "description": "A mysterious island appears in the fog...",
-    "permissions": ["storage.local"],
+    "permissions": [
+      "storage.local"
+    ],
     "hidden": true,
     "window": {
-      "defaultSize": { "width": 1024, "height": 768 },
+      "defaultSize": {
+        "width": 1024,
+        "height": 768
+      },
       "resizable": true
     }
   },
@@ -31,5 +36,23 @@
     "@types/react-dom": "^18.3.0",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"
-  }
+  },
+  "description": "A mysterious island appears in the fog...",
+  "homepage": "https://zos-apps.github.io/myst",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zos-apps/myst.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zos-apps/myst/issues"
+  },
+  "author": "Hanzo AI",
+  "license": "MIT",
+  "keywords": [
+    "zos",
+    "app",
+    "myst",
+    "macos",
+    "desktop"
+  ]
 }

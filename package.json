@@ -21,7 +21,21 @@
         "height": 768
       },
       "resizable": true
-    }
+    },
+    "about": "Explore the mysterious island in this classic adventure game.",
+    "help": [
+      "Click to move and interact",
+      "Solve puzzles to progress",
+      "Take notes!"
+    ],
+    "docs": "https://zos-apps.github.io/myst",
+    "site": "https://github.com/zos-apps/myst",
+    "features": [
+      "Puzzle solving",
+      "Exploration",
+      "Rich storyline",
+      "Beautiful graphics"
+    ]
   },
   "scripts": {
     "build": "tsup",
@@ -54,5 +68,13 @@
     "myst",
     "macos",
     "desktop"
-  ]
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/zos-apps"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

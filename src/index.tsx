@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-
-interface MystProps {
-  onClose: () => void;
-}
+import { useState, useEffect, useCallback } from 'react';
+import type { AppProps } from '@zos-apps/config';
+import { useLocalStorage } from '@zos-apps/config';
 
 interface Location {
   id: string;
@@ -188,44 +186,38 @@ const LOCATIONS: Location[] = [
   },
 ];
 
-const STORAGE_KEY = 'zos-myst-save';
+interface MystSaveState {
+  locations: Location[];
+  currentLocationId: string;
+  inventory: Collectable[];
+}
 
-const Myst: React.FC<MystProps> = ({ onClose }) => {
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [currentLocationId, setCurrentLocationId] = useState('ferry-building');
-  const [inventory, setInventory] = useState<Collectable[]>([]);
+const Myst: React.FC<AppProps> = ({ onClose: _onClose }) => {
+  const [saveState, setSaveState] = useLocalStorage<MystSaveState>('myst-save', {
+    locations: LOCATIONS,
+    currentLocationId: 'ferry-building',
+    inventory: [],
+  });
+  const { locations, currentLocationId, inventory } = saveState;
+
+  const setLocations = (updater: (prev: Location[]) => Location[]) => {
+    setSaveState(prev => ({ ...prev, locations: updater(prev.locations) }));
+  };
+  const setCurrentLocationId = (id: string) => {
+    setSaveState(prev => ({ ...prev, currentLocationId: id }));
+  };
+  const setInventory = (updater: (prev: Collectable[]) => Collectable[]) => {
+    setSaveState(prev => ({ ...prev, inventory: updater(prev.inventory) }));
+  };
+
   const [message, setMessage] = useState('');
   const [showInventory, setShowInventory] = useState(false);
   const [fogOpacity, setFogOpacity] = useState(0.8);
 
-  // Load game state
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const { locations: savedLocations, currentLocationId: savedLocation, inventory: savedInventory } = JSON.parse(saved);
-      setLocations(savedLocations);
-      setCurrentLocationId(savedLocation);
-      setInventory(savedInventory);
-    } else {
-      setLocations(LOCATIONS);
-    }
-  }, []);
-
-  // Save game state
-  useEffect(() => {
-    if (locations.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        locations,
-        currentLocationId,
-        inventory,
-      }));
-    }
-  }, [locations, currentLocationId, inventory]);
-
   // Fog animation
   useEffect(() => {
     const interval = setInterval(() => {
-      setFogOpacity(prev => 0.6 + Math.sin(Date.now() / 3000) * 0.2);
+      setFogOpacity(0.6 + Math.sin(Date.now() / 3000) * 0.2);
     }, 100);
     return () => clearInterval(interval);
   }, []);
